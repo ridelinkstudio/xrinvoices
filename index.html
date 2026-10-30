@@ -50,10 +50,14 @@
         <div class="field full"><label for="customerAddress">Customer address (optional)</label><input id="customerAddress" placeholder="Address"></div>
         <div class="field full"><label for="docNotes">Notes / payment details</label><textarea id="docNotes" placeholder="Payment terms, trip details, bank instructions, or other notes"></textarea></div>
       </div>
+      <div id="serviceLines">
+        <div class="section-title" id="linesHeading">Items or services</div>
+        <p class="hint" id="linesHint">Add each product or service as a separate line. The total is calculated automatically.</p>
+        <div style="overflow-x:auto"><table class="line-items"><thead><tr><th style="width:48%">Description</th><th id="qtyHeading">Qty</th><th id="rateHeading">Rate (₦)</th><th>Amount</th><th></th></tr></thead><tbody id="itemsBody"></tbody></table></div>
+        <div class="actions"><button class="btn small" id="addItemBtn">＋ Add service / item</button></div>
+        <div class="totals"><div class="totalrow"><span>Subtotal</span><strong id="lineSubtotal">₦0.00</strong></div><div class="totalrow grand"><span id="lineTotalLabel">Total</span><strong id="lineTotal">₦0.00</strong></div></div>
+      </div>
       <div id="invoiceFields">
-        <div class="section-title">Items or services</div>
-        <div style="overflow-x:auto"><table class="line-items"><thead><tr><th style="width:38%">Description</th><th>Qty</th><th>Rate (₦)</th><th>Amount</th><th></th></tr></thead><tbody id="itemsBody"></tbody></table></div>
-        <div class="actions"><button class="btn small" id="addItemBtn">＋ Add line</button></div>
         <div class="form-grid" style="margin-top:14px">
           <div class="field"><label for="discount">Discount (₦)</label><input id="discount" type="number" min="0" step="0.01" value="0"></div>
           <div class="field"><label for="invoiceStatus">Payment status</label><select id="invoiceStatus"><option value="unpaid">Unpaid</option><option value="part-paid">Part-paid</option><option value="paid">Paid in full</option></select></div>
@@ -63,7 +67,7 @@
       <div id="receiptFields" class="hidden">
         <div class="section-title">Payment received</div>
         <div class="form-grid">
-          <div class="field"><label for="receiptAmount">Amount received (₦)</label><input id="receiptAmount" type="number" min="0.01" step="0.01" placeholder="0.00"></div>
+          <div class="field"><label for="receiptAmount">Total amount received (₦)</label><input id="receiptAmount" type="number" readonly placeholder="Calculated from service lines"></div>
           <div class="field"><label for="paymentMethod">Payment method</label><select id="paymentMethod"><option>Bank transfer</option><option>Cash</option><option>POS</option><option>USSD</option><option>Other</option></select></div>
           <div class="field"><label for="linkedInvoice">Related invoice number (optional)</label><input id="linkedInvoice" placeholder="e.g. XTC-INV-0001"></div>
           <div class="field"><label for="receiptBalance">Remaining balance (₦, optional)</label><input id="receiptBalance" type="number" min="0" step="0.01" placeholder="Leave blank if not applicable"></div>
@@ -181,11 +185,17 @@ function addLine(line={description:"",qty:1,rate:0}){
   const tr=document.createElement("tr");
   tr.innerHTML=`<td><input class="desc" aria-label="Description" placeholder="Service or item" value="${safe(line.description)}"></td><td><input class="qty" aria-label="Quantity" type="number" min="0" step="0.01" value="${line.qty}"></td><td><input class="rate num" aria-label="Rate" type="number" min="0" step="0.01" value="${line.rate}"></td><td class="lineAmount">${money((Number(line.qty)||0)*(Number(line.rate)||0))}</td><td><button class="btn small remove" aria-label="Remove line" type="button">×</button></td>`;
   tr.querySelectorAll("input").forEach(i=>i.addEventListener("input",()=>{updatePreview();}));
+  tr.querySelector(".qty").closest("td").classList.toggle("hidden",currentType==="receipt");
   tr.querySelector(".remove").addEventListener("click",()=>{tr.remove();if(!$("itemsBody").children.length)addLine();updatePreview();});
   $("itemsBody").appendChild(tr);
 }
 function setType(type){
   currentType=type;
+  $("linesHeading").textContent=type==="invoice"?"Items or services":"Services / transactions received";
+  $("linesHint").textContent=type==="invoice"?"Add each product or service as a separate line. The total is calculated automatically.":"Add each service, item, or transaction received as its own line. The receipt total is calculated from these amounts.";
+  $("qtyHeading").classList.toggle("hidden",type==="receipt");
+  $("rateHeading").textContent=type==="receipt"?"Amount (₦)":"Rate (₦)";
+  document.querySelectorAll("#itemsBody tr .qty").forEach(el=>el.closest("td").classList.toggle("hidden",type==="receipt"));
   $("invoiceTab").classList.toggle("active",type==="invoice");
   $("receiptTab").classList.toggle("active",type==="receipt");
   $("invoiceFields").classList.toggle("hidden",type!=="invoice");
@@ -229,9 +239,9 @@ function readEditor(){
     data.amountPaid=Math.min(data.total,Math.max(0,Number($("amountPaid").value)||0));data.balance=Math.max(0,data.total-data.amountPaid);
     data.status=data.balance===0?"paid":data.amountPaid>0?"part-paid":"unpaid";
   }else{
-    data.amountReceived=Math.max(0,Number($("receiptAmount").value)||0);data.paymentMethod=$("paymentMethod").value;
+    data.lines=getLines();data.amountReceived=data.lines.reduce((sum,x)=>sum+(x.qty*x.rate),0);data.subtotal=data.amountReceived;data.total=data.amountReceived;data.paymentMethod=$("paymentMethod").value;
     data.linkedInvoice=$("linkedInvoice").value.trim();data.receiptBalance=$("receiptBalance").value===""?null:Math.max(0,Number($("receiptBalance").value)||0);
-    data.paymentRef=$("paymentRef").value.trim();data.total=data.amountReceived;data.lines=[];
+    data.paymentRef=$("paymentRef").value.trim();
   }
   return data;
 }
@@ -242,7 +252,7 @@ function previewHtml(d){
   const lineRows=(d.lines||[]).map(x=>`<tr><td>${safe(x.description||"Item")}</td><td style="text-align:right">${x.qty}</td><td style="text-align:right">${money(x.rate)}</td><td style="text-align:right">${money(x.qty*x.rate)}</td></tr>`).join("");
   let body=isInv?`<table style="width:100%;border-collapse:collapse;margin-top:28px;font-size:12px"><thead><tr style="background:#f2eee3"><th style="text-align:left;padding:9px">DESCRIPTION</th><th style="text-align:right;padding:9px">QTY</th><th style="text-align:right;padding:9px">RATE</th><th style="text-align:right;padding:9px">AMOUNT</th></tr></thead><tbody>${lineRows}</tbody></table>
   <div style="margin:18px 0 0 auto;max-width:250px;font-size:12px"><p style="display:flex;justify-content:space-between">Subtotal <b>${money(d.subtotal||0)}</b></p><p style="display:flex;justify-content:space-between">Discount <b>${money(d.discount||0)}</b></p><p style="display:flex;justify-content:space-between;border-top:2px solid ${safe(b.brandColor)};padding-top:10px;font-size:17px">TOTAL <b>${money(d.total||0)}</b></p><p style="display:flex;justify-content:space-between">Paid <b>${money(d.amountPaid||0)}</b></p><p style="display:flex;justify-content:space-between">Balance <b>${money(d.balance||0)}</b></p></div>`:
-  `<div style="margin-top:35px;padding:22px;background:#f7f4ed;border-left:4px solid ${safe(b.brandColor)}"><div style="font-size:12px;color:#666">AMOUNT RECEIVED</div><div style="font-size:30px;font-weight:800;margin:8px 0">${money(d.amountReceived||0)}</div><div style="font-size:12px">Payment method: ${safe(d.paymentMethod||"")}</div>${d.linkedInvoice?`<div style="font-size:12px;margin-top:5px">Related invoice: ${safe(d.linkedInvoice)}</div>`:""}${d.receiptBalance!==null&&d.receiptBalance!==undefined?`<div style="font-size:12px;margin-top:5px">Remaining balance: ${money(d.receiptBalance)}</div>`:""}${d.paymentRef?`<div style="font-size:12px;margin-top:5px">Reference: ${safe(d.paymentRef)}</div>`:""}</div>`;
+  `<table style="width:100%;border-collapse:collapse;margin-top:28px;font-size:12px"><thead><tr style="background:#f2eee3"><th style="text-align:left;padding:9px">SERVICE / ITEM DESCRIPTION</th><th style="text-align:right;padding:9px">AMOUNT</th></tr></thead><tbody>${(d.lines||[]).map(x=>`<tr><td style="padding:9px;border-bottom:1px solid #ddd">${safe(x.description||"Service")}</td><td style="text-align:right;padding:9px;border-bottom:1px solid #ddd">${money(x.qty*x.rate)}</td></tr>`).join("")}</tbody></table><div style="margin:18px 0 0 auto;max-width:270px;font-size:12px"><p style="display:flex;justify-content:space-between;border-top:2px solid ${safe(b.brandColor)};padding-top:10px;font-size:19px">TOTAL RECEIVED <b>${money(d.amountReceived||0)}</b></p><p style="display:flex;justify-content:space-between">Payment method <b>${safe(d.paymentMethod||"")}</b></p>${d.linkedInvoice?`<p>Related invoice: ${safe(d.linkedInvoice)}</p>`:""}${d.receiptBalance!==null&&d.receiptBalance!==undefined?`<p>Remaining balance: ${money(d.receiptBalance)}</p>`:""}${d.paymentRef?`<p>Reference: ${safe(d.paymentRef)}</p>`:""}</div>`;
   return `<div style="font-family:Arial,sans-serif;color:#1b1b18;max-width:100%;font-size:12px">
     <div style="display:flex;justify-content:space-between;gap:12px;border-bottom:3px solid ${safe(b.brandColor)};padding-bottom:16px">
       <div>${b.logoData?`<img src="${b.logoData}" alt="Business logo" style="max-width:68px;max-height:54px;object-fit:contain;display:block;margin-bottom:7px">`:""}<div style="font-size:19px;font-weight:800">${safe(b.name)}</div><div style="color:#666;margin-top:4px">${br(b.address||"")}</div><div style="color:#666">${safe(b.phone||"")}${b.email?" · "+safe(b.email):""}</div>${b.businessId?`<div style="color:#666">Business ID: ${safe(b.businessId)}</div>`:""}</div>
@@ -269,7 +279,7 @@ function validate(d){
   if(d.type==="invoice"){
     if(!d.lines.length||!d.lines.some(x=>x.description&&x.qty>0)){return "Add at least one item with a description and quantity greater than zero.";}
     if(d.amountPaid>d.total){return "Amount already paid cannot exceed the invoice total. Use a separate receipt for additional payments.";}
-  }else if(d.amountReceived<=0){return "Enter an amount greater than zero for the payment received.";}
+  }else if(!d.lines.length||!d.lines.some(x=>x.description&&x.rate>0)){return "Add at least one service or item with a description and amount greater than zero.";}
   return "";
 }
 function saveDocument(){
@@ -407,10 +417,11 @@ function downloadPdf(d){
     pdf.setFont("helvetica","bold");pdf.setFontSize(9);pdf.setTextColor(...rgb);pdf.text("STATUS: "+(d.status==="paid"?"PAID IN FULL":d.status==="part-paid"?"PART PAYMENT":"PAYMENT DUE"),left,y+3);y+=10;
     if(b.bankDetails){pdf.setTextColor(35,35,30);pdf.setFont("helvetica","bold");pdf.text("Payment instructions",left,y);y+=5;pdf.setFont("helvetica","normal");pdf.setFontSize(9);pdf.setTextColor(80,80,75);const t=pdf.splitTextToSize(b.bankDetails,width);pdf.text(t,left,y);y+=t.length*4+4;}
   }else{
-    pdf.setFillColor(247,244,237);pdf.rect(left,y,width,35,"F");pdf.setTextColor(90,90,85);pdf.setFontSize(9);pdf.text("AMOUNT RECEIVED",left+6,y+8);
-    pdf.setTextColor(25,25,22);pdf.setFont("helvetica","bold");pdf.setFontSize(22);pdf.text(money(d.amountReceived),left+6,y+19);
-    pdf.setFont("helvetica","normal");pdf.setFontSize(9);pdf.text("Payment method: "+String(d.paymentMethod||""),left+6,y+27);
-    y+=43;
+    const rows=(d.lines||[]).map(x=>[String(x.description||"Service"),money(x.qty*x.rate)]);
+    pdf.autoTable({startY:y,head:[["SERVICE / ITEM DESCRIPTION","AMOUNT"]],body:rows,theme:"striped",styles:{font:"helvetica",fontSize:9,cellPadding:4},headStyles:{fillColor:rgb,textColor:[20,20,18]},columnStyles:{1:{halign:"right"}},margin:{left,right:left},tableWidth:width});
+    y=pdf.lastAutoTable.finalY+10;
+    pdf.setFont("helvetica","bold");pdf.setFontSize(14);pdf.setTextColor(...rgb);pdf.text("TOTAL RECEIVED",right-65,y);pdf.text(money(d.amountReceived),right,y,{align:"right"});y+=10;
+    pdf.setFont("helvetica","normal");pdf.setFontSize(9);pdf.setTextColor(45,45,40);pdf.text("Payment method: "+String(d.paymentMethod||""),left,y);y+=6;
     const details=[d.linkedInvoice?"Related invoice: "+d.linkedInvoice:"",d.receiptBalance!==null&&d.receiptBalance!==undefined?"Remaining balance: "+money(d.receiptBalance):"",d.paymentRef?"Payment reference: "+d.paymentRef:""].filter(Boolean);
     details.forEach(t=>{pdf.text(pdf.splitTextToSize(t,width),left,y);y+=5;});
   }
@@ -450,4 +461,4 @@ $("brandColor").addEventListener("input",e=>document.documentElement.style.setPr
 loadState();updateBrand();renderDashboard();settingsToForm();
 </script>
 </body>
-</html>
+                                                                                                                  </html>
