@@ -382,7 +382,7 @@ function printDocument(d){
   win.onload=()=>{win.focus();win.print();};
   setTimeout(()=>{try{win.focus();win.print();}catch(e){}},700);
 }
-function downloadPdf(d){
+function generatePdf(d){
   if(!window.jspdf||!window.jspdf.jsPDF){
     alert("The PDF library could not load. Use “Print / Save as PDF” instead, or reconnect to the internet and try again.");return;
   }
@@ -431,20 +431,39 @@ function downloadPdf(d){
   }
   if(d.notes){y+=5;if(y>265){pdf.addPage();y=22;}pdf.setFont("helvetica","bold");pdf.setTextColor(35,35,30);pdf.setFontSize(9);pdf.text("Notes",left,y);y+=5;pdf.setFont("helvetica","normal");pdf.setTextColor(85,85,80);const t=pdf.splitTextToSize(d.notes,width);pdf.text(t,left,y);y+=t.length*4+4;}
   y=Math.min(y+8,282);pdf.setDrawColor(220,220,215);pdf.line(left,y,right,y);pdf.setFont("helvetica","normal");pdf.setFontSize(8);pdf.setTextColor(110,110,105);pdf.text(String(b.defaultTerms||"Thank you for your business."),left,y+6,{maxWidth:width});
-  pdf.save((d.number||"business-document").replace(/[^a-z0-9-_]/gi,"_")+".pdf");
+  return pdf;
+}
+function downloadPdf(d){
+  const pdf=generatePdf(d);
+  if(pdf) pdf.save((d.number||"business-document").replace(/[^a-z0-9-_]/gi,"_")+".pdf");
 }
 function hexRgb(hex){const m=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex||"#c49b36");return m?[parseInt(m[1],16),parseInt(m[2],16),parseInt(m[3],16)]:[196,155,54];}
 
-function shareReceiptWhatsApp(){
+async function shareReceiptWhatsApp(){
   const d=readEditor();
   const problem=validate(d);
-  if(d.type!=="receipt"){ $("editorStatus").textContent="WhatsApp receipt sharing is available when creating a receipt."; return; }
+  if(d.type!=="receipt"){ $("editorStatus").textContent="WhatsApp PDF sharing is available when creating a receipt."; return; }
   if(problem){$("editorStatus").textContent=problem;return;}
-  const b=state.business;
-  const lines=d.lines.map((x,i)=>`${i+1}. ${x.description}: ${money(x.rate)}`).join("\n");
-  const message=[`*${b.name||"Business"}*`,`*PAYMENT RECEIPT*`,`Receipt No: ${d.number}`,`Date: ${d.date}`,`Received from: ${d.customerName}`,"", "*Services / items*",lines,"",`*TOTAL RECEIVED: ${money(d.amountReceived)}*`,`Payment method: ${d.paymentMethod}`,d.linkedInvoice?`Related invoice: ${d.linkedInvoice}`:"",d.receiptBalance!==null?`Remaining balance: ${money(d.receiptBalance)}`:"",d.paymentRef?`Payment reference: ${d.paymentRef}`:"",d.notes?`Notes: ${d.notes}`:"", "", b.phone?`Business contact: ${b.phone}`:"", "Thank you for your business."].filter(Boolean).join("\n");
-  const url="https://wa.me/?text="+encodeURIComponent(message);
-  window.open(url,"_blank","noopener,noreferrer");
+  if(!navigator.share || !navigator.canShare){
+    alert("Your browser does not support sharing PDF files directly. Download the PDF, then attach it in WhatsApp using the paperclip button.");
+    return;
+  }
+  const pdf=generatePdf(d);
+  if(!pdf) return;
+  const filename=(d.number||"payment-receipt").replace(/[^a-z0-9-_]/gi,"_")+".pdf";
+  const file=new File([pdf.output("blob")],filename,{type:"application/pdf"});
+  if(!navigator.canShare({files:[file]})){
+    alert("This browser cannot share PDF files directly. Please download the PDF, then attach it in WhatsApp using the paperclip button.");
+    return;
+  }
+  try{
+    await navigator.share({files:[file],title:"Payment receipt - "+(d.number||""),text:"Payment receipt from "+(state.business.name||"our business")});
+    $("editorStatus").textContent="Receipt PDF shared. Choose WhatsApp in the sharing panel if it is not already selected.";
+  }catch(err){
+    if(err && err.name!=="AbortError"){
+      alert("Could not open the PDF sharing panel. Download the PDF and attach it to your WhatsApp message manually.");
+    }
+  }
 }
 
 $("newInvoiceBtn").onclick=()=>newDocument("invoice");
@@ -478,4 +497,4 @@ $("brandColor").addEventListener("input",e=>document.documentElement.style.setPr
 loadState();updateBrand();renderDashboard();settingsToForm();
 </script>
 </body>
-                                                                                                                                                                                            </html>
+  </html>
