@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#11110f">
+<title>XTC Rides | Invoice & Receipt Maker</title>
+<style>
+:root{--bg:#10110f;--panel:#191a17;--panel2:#20211d;--line:#36372f;--gold:#d8b45a;--gold2:#f1d991;--text:#f7f4eb;--muted:#aaa99f;--danger:#f08b80;--ok:#9dd4a5}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}button,input,textarea,select{font:inherit}button{cursor:pointer}.shell{max-width:1180px;margin:auto;padding:18px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0 22px;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:12px}.mark{width:46px;height:46px;border-radius:13px;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#171610;display:grid;place-items:center;font-weight:900;font-size:21px}.brand h1{font-size:17px;margin:0;letter-spacing:.08em}.brand p{margin:2px 0 0;color:var(--muted);font-size:12px;letter-spacing:.08em}.pill{border:1px solid #62542d;border-radius:999px;color:var(--gold2);padding:6px 10px;font-size:12px}.hero{padding:25px 0 18px}.eyebrow{color:var(--gold);text-transform:uppercase;letter-spacing:.15em;font-size:11px;font-weight:700}.hero h2{font-size:clamp(25px,4vw,38px);line-height:1.1;margin:7px 0 9px}.hero p{margin:0;color:var(--muted);max-width:650px}.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:10px;padding:10px 14px;font-weight:650}.btn.primary{background:var(--gold);color:#18170f;border-color:var(--gold)}.btn.ghost{background:transparent}.btn.danger{color:var(--danger);border-color:#74433e}.btn.small{padding:7px 10px;font-size:13px}.btn:focus,input:focus,textarea:focus,select:focus{outline:2px solid var(--gold);outline-offset:2px}.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:14px 0 22px}.stat,.card{background:var(--panel);border:1px solid var(--line);border-radius:15px}.stat{padding:15px}.stat span{display:block;color:var(--muted);font-size:12px}.stat strong{display:block;font-size:23px;margin-top:5px;overflow-wrap:anywhere}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.card{padding:18px;margin-bottom:16px}.card h3{margin:0 0 14px;font-size:17px}.card-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.card-head h3{margin:0}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:5px;min-width:0}.field.full{grid-column:1/-1}.field label{font-size:12px;color:var(--muted)}input,textarea,select{width:100%;border:1px solid var(--line);border-radius:9px;padding:10px 11px;background:#11120f;color:var(--text);min-width:0}textarea{min-height:76px;resize:vertical}.hint{color:var(--muted);font-size:12px}.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 16px}.tab{border:1px solid var(--line);background:transparent;color:var(--muted);padding:9px 12px;border-radius:999px}.tab.active{background:var(--gold);color:#17160f;border-color:var(--gold);font-weight:750}.hidden{display:none!important}.line-items{width:100%;border-collapse:collapse;margin-top:12px}.line-items th,.line-items td{text-align:left;padding:8px 5px;border-bottom:1px solid var(--line);vertical-align:top}.line-items th{color:var(--muted);font-size:11px;font-weight:600}.line-items input{padding:8px;font-size:13px}.line-items .num{width:85px}.line-items .qty{width:65px}.line-items .remove{padding:5px 8px}.totals{margin:14px 0 0 auto;max-width:310px}.totalrow{display:flex;justify-content:space-between;gap:12px;padding:5px 0;color:var(--muted)}.totalrow strong{color:var(--text)}.totalrow.grand{border-top:1px solid var(--line);margin-top:5px;padding-top:11px;font-size:18px;color:var(--gold2)}.totalrow.grand strong{color:var(--gold2)}.notice{padding:11px 13px;border:1px solid #62542d;background:#242116;border-radius:10px;color:#e8d8a8;font-size:13px;margin-bottom:15px}.status{font-size:12px;color:var(--ok);min-height:18px;margin-top:10px}.history-list{display:flex;flex-direction:column;gap:9px}.history-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border:1px solid var(--line);border-radius:11px;background:#151612}.history-main{min-width:0}.history-main strong{display:block;overflow-wrap:anywhere}.history-main span{display:block;color:var(--muted);font-size:12px;margin-top:3px}.history-amount{font-weight:750;white-space:nowrap}.empty{padding:24px 10px;text-align:center;color:var(--muted)}.footer{padding:20px 0 30px;text-align:center;color:var(--muted);font-size:12px}.logo-preview{width:48px;height:48px;object-fit:contain;border:1px solid var(--line);border-radius:8px;padding:3px;background:#fff}.doc-brand{display:flex;align-items:center;gap:10px}.muted{color:var(--muted)}.section-title{margin:20px 0 10px;font-size:14px;color:var(--gold2)}.checkline{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px}.checkline input{width:auto}
+@media(max-width:760px){.shell{padding:13px}.grid{grid-template-columns:1fr}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:18px}.card{padding:14px}.topbar{align-items:flex-start}.pill{display:none}.line-items th:nth-child(3),.line-items td:nth-child(3){display:none}.line-items .num{width:76px}.form-grid{gap:10px}.btn{padding:10px 11px}}
+@media(max-width:390px){.stats{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.line-items .qty{width:48px}}
+</style>
+<!-- PDF downloads use jsPDF from a CDN. If unavailable, use Print / Save as PDF instead. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js" defer></script>
+</head>
+<body>
+<div class="shell">
+<header class="topbar">
+  <div class="brand"><div class="mark">XR</div><div><h1 id="brandTitle">XTC RIDES</h1><p>INVOICE & RECEIPT MAKER</p></div></div>
+  <span class="pill">PRIVATE BUSINESS WORKSPACE</span>
+</header>
+<main>
+<section id="dashboardView">
+  <div class="hero"><div class="eyebrow">Business desk</div><h2>Professional documents.<br><span style="color:var(--gold2)">Without the hassle.</span></h2><p>Create invoices and payment receipts, keep a local document history, and download or print professional copies whenever you need them.</p>
+    <div class="actions"><button class="btn primary" id="newInvoiceBtn">＋ Create invoice</button><button class="btn" id="newReceiptBtn">＋ Create receipt</button><button class="btn ghost" id="settingsBtn">⚙ Business settings</button></div>
+  </div>
+  <div class="stats"><div class="stat"><span>Saved documents</span><strong id="statDocs">0</strong></div><div class="stat"><span>Invoices issued</span><strong id="statInvoices">0</strong></div><div class="stat"><span>Recorded payments</span><strong id="statPayments">₦0</strong></div></div>
+  <div class="grid">
+    <section class="card"><div class="card-head"><h3>Recent documents</h3><button class="btn small" id="viewAllBtn">View all</button></div><div id="recentList" class="history-list"></div></section>
+    <section class="card"><h3>Backup & restore</h3><p class="muted">Your records are stored in this browser on this device. Export a backup regularly so you can recover your records if you change phones or clear browser data.</p><div class="actions"><button class="btn primary" id="backupBtn">Download backup</button><button class="btn" id="restoreBtn">Restore backup</button><input type="file" id="restoreFile" accept=".json,application/json" class="hidden"></div><div class="status" id="backupStatus" aria-live="polite"></div></section>
+  </div>
+  <section class="card"><h3>Quick guide</h3><div class="grid"><div><strong>1. Set up your business</strong><p class="muted">Add your contact details, logo, invoice prefix and payment instructions.</p></div><div><strong>2. Create and save</strong><p class="muted">Fill in the document, save it to this browser, then download the PDF or print it.</p></div></div><p class="hint">Prototype note: this is a local-first tool, not cloud accounting software. Records do not sync between devices and this page does not verify payments.</p></section>
+</section>
+
+<section id="editorView" class="hidden">
+  <div class="hero"><div class="eyebrow" id="editorEyebrow">New document</div><h2 id="editorTitle">Create invoice</h2><p>Enter the details below. Your document preview and PDF will use your saved business branding.</p></div>
+  <div class="tabs"><button class="tab active" id="invoiceTab">Invoice</button><button class="tab" id="receiptTab">Receipt</button><button class="tab" id="dashboardTab">← Dashboard</button></div>
+  <div id="editorNotice" class="notice">Document numbers are assigned automatically when you save. Check details before issuing a document.</div>
+  <div class="grid">
+    <section class="card">
+      <h3>Document details</h3>
+      <div class="form-grid">
+        <div class="field"><label for="docNumber">Document number</label><input id="docNumber" readonly></div>
+        <div class="field"><label for="docDate">Date</label><input id="docDate" type="date"></div>
+        <div class="field" id="dueDateWrap"><label for="dueDate">Due date (optional)</label><input id="dueDate" type="date"></div>
+        <div class="field"><label for="customerName">Customer / billed to</label><input id="customerName" placeholder="Customer or company name"></div>
+        <div class="field"><label for="customerPhone">Customer phone / email</label><input id="customerPhone" placeholder="Optional"></div>
+        <div class="field full"><label for="customerAddress">Customer address (optional)</label><input id="customerAddress" placeholder="Address"></div>
+        <div class="field full"><label for="docNotes">Notes / payment details</label><textarea id="docNotes" placeholder="Payment terms, trip details, bank instructions, or other notes"></textarea></div>
+      </div>
+      <div id="invoiceFields">
+        <div class="section-title">Items or services</div>
+        <div style="overflow-x:auto"><table class="line-items"><thead><tr><th style="width:38%">Description</th><th>Qty</th><th>Rate (₦)</th><th>Amount</th><th></th></tr></thead><tbody id="itemsBody"></tbody></table></div>
+        <div class="actions"><button class="btn small" id="addItemBtn">＋ Add line</button></div>
+        <div class="form-grid" style="margin-top:14px">
+          <div class="field"><label for="discount">Discount (₦)</label><input id="discount" type="number" min="0" step="0.01" value="0"></div>
+          <div class="field"><label for="invoiceStatus">Payment status</label><select id="invoiceStatus"><option value="unpaid">Unpaid</option><option value="part-paid">Part-paid</option><option value="paid">Paid in full</option></select></div>
+          <div class="field"><label for="amountPaid">Amount already paid (₦)</label><input id="amountPaid" type="number" min="0" step="0.01" value="0"></div>
+        </div>
+      </div>
+      <div id="receiptFields" class="hidden">
+        <div class="section-title">Payment received</div>
+        <div class="form-grid">
+          <div class="field"><label for="receiptAmount">Amount received (₦)</label><input id="receiptAmount" type="number" min="0.01" step="0.01" placeholder="0.00"></div>
+          <div class="field"><label for="paymentMethod">Payment method</label><select id="paymentMethod"><option>Bank transfer</option><option>Cash</option><option>POS</option><option>USSD</option><option>Other</option></select></div>
+          <div class="field"><label for="linkedInvoice">Related invoice number (optional)</label><input id="linkedInvoice" placeholder="e.g. XTC-INV-0001"></div>
+          <div class="field"><label for="receiptBalance">Remaining balance (₦, optional)</label><input id="receiptBalance" type="number" min="0" step="0.01" placeholder="Leave blank if not applicable"></div>
+          <div class="field full"><label for="paymentRef">Payment reference (optional)</label><input id="paymentRef" placeholder="Transfer reference or transaction ID"></div>
+        </div>
+      </div>
+      <div class="actions"><button class="btn primary" id="saveDocBtn">Save document</button><button class="btn" id="downloadPdfBtn">Download PDF</button><button class="btn" id="printDocBtn">Print / Save as PDF</button><button class="btn ghost" id="cancelEditBtn">Cancel</button></div>
+      <div id="editorStatus" class="status" aria-live="polite"></div>
+    </section>
+    <section class="card"><h3>Document preview</h3><div id="preview" style="background:#fff;color:#171717;border-radius:10px;padding:22px;min-height:350px"></div><p class="hint" style="margin-top:10px">Preview for checking only. Download or print to produce the document.</p></section>
+  </div>
+</section>
+
+<section id="settingsView" class="hidden">
+  <div class="hero"><div class="eyebrow">Configuration</div><h2>Business settings</h2><p>These settings personalise the application for this business. Save changes before creating documents.</p></div>
+  <section class="card">
+    <div class="form-grid">
+      <div class="field"><label for="businessName">Business name</label><input id="businessName"></div>
+      <div class="field"><label for="businessPhone">Phone / WhatsApp</label><input id="businessPhone"></div>
+      <div class="field full"><label for="businessAddress">Business address</label><input id="businessAddress"></div>
+      <div class="field"><label for="businessEmail">Email (optional)</label><input id="businessEmail" type="email"></div>
+      <div class="field"><label for="businessId">Business / tax ID (optional)</label><input id="businessId"></div>
+      <div class="field"><label for="invoicePrefix">Invoice prefix</label><input id="invoicePrefix" placeholder="XTC-INV"></div>
+      <div class="field"><label for="receiptPrefix">Receipt prefix</label><input id="receiptPrefix" placeholder="XTC-RCT"></div>
+      <div class="field"><label for="nextInvoice">Next invoice sequence</label><input id="nextInvoice" type="number" min="1" step="1"></div>
+      <div class="field"><label for="nextReceipt">Next receipt sequence</label><input id="nextReceipt" type="number" min="1" step="1"></div>
+      <div class="field"><label for="bankDetails">Bank / payment instructions</label><textarea id="bankDetails" placeholder="Bank name, account name and number, if desired"></textarea></div>
+      <div class="field"><label for="defaultTerms">Default footer / terms</label><textarea id="defaultTerms" placeholder="Thank you for your business."></textarea></div>
+      <div class="field"><label for="brandColor">Document accent colour</label><input id="brandColor" type="color" value="#c49b36" style="height:44px;padding:5px"></div>
+      <div class="field"><label for="businessLogo">Business logo (optional)</label><input id="businessLogo" type="file" accept="image/png,image/jpeg,image/webp"><span class="hint">Use a small PNG/JPG/WebP. The logo is stored in this browser.</span><button class="btn small" id="removeLogoBtn" type="button">Remove logo</button></div>
+    </div>
+    <div class="actions"><button class="btn primary" id="saveSettingsBtn">Save settings</button><button class="btn" id="settingsBackBtn">← Dashboard</button></div><div class="status" id="settingsStatus" aria-live="polite"></div>
+  </section>
+  <section class="card"><h3>Important about numbering</h3><p class="muted">Numbers are assigned and advanced when you save a new document. Editing a saved document keeps its original number. If you restore an old backup or change prefixes, check the next sequence before issuing new documents.</p></section>
+</section>
+
+<section id="historyView" class="hidden">
+  <div class="hero"><div class="eyebrow">Your records</div><h2>Document history</h2><p>Saved records stored in this browser.</p></div>
+  <section class="card"><div class="form-grid"><div class="field"><label for="historySearch">Search documents</label><input id="historySearch" placeholder="Number or customer"></div><div class="field"><label for="historyType">Document type</label><select id="historyType"><option value="all">All documents</option><option value="invoice">Invoices</option><option value="receipt">Receipts</option></select></div></div><div class="actions"><button class="btn" id="historyBackBtn">← Dashboard</button><button class="btn primary" id="historyBackupBtn">Download backup</button></div><div id="historyList" class="history-list" style="margin-top:16px"></div></section>
+</section>
+</main>
+<footer class="footer">RideLink Business Tools · XTC Rides pilot · Keep regular backups of your records.</footer>
+</div>
+
+<script>
+/* BUSINESS CONFIGURATION: customise this object for each sold copy.
+   Do not put passwords, API keys, or private customer records here. */
+const BUSINESS_CONFIG = {
+  name: "XTC Rides",
+  phone: "07036732460",
+  address: "Abuja, FCT, Nigeria",
+  email: "",
+  businessId: "",
+  invoicePrefix: "XTC-INV",
+  receiptPrefix: "XTC-RCT",
+  nextInvoice: 39,
+  nextReceipt: 1,
+  bankDetails: "",
+  defaultTerms: "Thank you for choosing XTC Rides.",
+  brandColor: "#c49b36",
+  logoData: ""
+};
+
+/* APPLICATION LOGIC starts here. */
+const STORE_KEY = "ridelink_invoice_maker_v1";
+const $ = id => document.getElementById(id);
+const today = () => new Date().toISOString().slice(0,10);
+const money = n => "₦" + (Number(n)||0).toLocaleString("en-NG",{minimumFractionDigits:2,maximumFractionDigits:2});
+const safe = s => String(s ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const br = s => safe(s).replace(/\n/g,"<br>");
+const makeId = () => "doc_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2,8);
+let state = {business:{...BUSINESS_CONFIG},documents:[]};
+let currentType = "invoice";
+let editingId = null;
+let currentLines = [];
+
+function loadState(){
+  try{
+    const raw=localStorage.getItem(STORE_KEY);
+    if(raw){const parsed=JSON.parse(raw);if(parsed && parsed.business && Array.isArray(parsed.documents)){state=parsed;state.business={...BUSINESS_CONFIG,...parsed.business};}}
+  }catch(e){console.warn("Could not load saved data",e);}
+}
+function persist(){
+  try{localStorage.setItem(STORE_KEY,JSON.stringify(state));return true;}
+  catch(e){alert("The browser could not save this data. Please download a backup and consider removing large images.");return false;}
+}
+function showView(view){
+  ["dashboardView","editorView","settingsView","historyView"].forEach(id=>$(id).classList.add("hidden"));
+  $(view+"View").classList.remove("hidden");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function updateBrand(){
+  const b=state.business;
+  $("brandTitle").textContent=b.name || "YOUR BUSINESS";
+  document.documentElement.style.setProperty("--gold",b.brandColor||"#c49b36");
+  $("brandTitle").title=b.name||"";
+}
+function formatNumber(type,seq){
+  const prefix=type==="invoice"?state.business.invoicePrefix:state.business.receiptPrefix;
+  return `${(prefix|| (type==="invoice"?"INV":"RCT")).trim()}-${String(seq).padStart(4,"0")}`;
+}
+function nextNumber(type){
+  const key=type==="invoice"?"nextInvoice":"nextReceipt";
+  return formatNumber(type,Math.max(1,Number(state.business[key])||1));
+}
+function getLines(){return [...document.querySelectorAll("#itemsBody tr")].map(tr=>({description:tr.querySelector(".desc").value.trim(),qty:Math.max(0,Number(tr.querySelector(".qty").value)||0),rate:Math.max(0,Number(tr.querySelector(".rate").value)||0)})).filter(x=>x.description||x.qty||x.rate);}
+function totals(){
+  const subtotal=currentLines.reduce((s,x)=>s+x.qty*x.rate,0);
+  const discount=Math.min(subtotal,Math.max(0,Number($("discount").value)||0));
+  const total=Math.max(0,subtotal-discount);
+  const paid=Math.min(total,Math.max(0,Number($("amountPaid").value)||0));
+  return {subtotal,discount,total,paid,balance:Math.max(0,total-paid)};
+}
+function addLine(line={description:"",qty:1,rate:0}){
+  const tr=document.createElement("tr");
+  tr.innerHTML=`<td><input class="desc" aria-label="Description" placeholder="Service or item" value="${safe(line.description)}"></td><td><input class="qty" aria-label="Quantity" type="number" min="0" step="0.01" value="${line.qty}"></td><td><input class="rate num" aria-label="Rate" type="number" min="0" step="0.01" value="${line.rate}"></td><td class="lineAmount">${money((Number(line.qty)||0)*(Number(line.rate)||0))}</td><td><button class="btn small remove" aria-label="Remove line" type="button">×</button></td>`;
+  tr.querySelectorAll("input").forEach(i=>i.addEventListener("input",()=>{updatePreview();}));
+  tr.querySelector(".remove").addEventListener("click",()=>{tr.remove();if(!$("itemsBody").children.length)addLine();updatePreview();});
+  $("itemsBody").appendChild(tr);
+}
+function setType(type){
+  currentType=type;
+  $("invoiceTab").classList.toggle("active",type==="invoice");
+  $("receiptTab").classList.toggle("active",type==="receipt");
+  $("invoiceFields").classList.toggle("hidden",type!=="invoice");
+  $("receiptFields").classList.toggle("hidden",type!=="receipt");
+  $("dueDateWrap").classList.toggle("hidden",type!=="invoice");
+  $("editorEyebrow").textContent=editingId?"Edit saved document":"New document";
+  $("editorTitle").textContent=(editingId?"Edit ":"Create ")+(type==="invoice"?"invoice":"payment receipt");
+  $("saveDocBtn").textContent=editingId?"Update document":"Save document";
+  $("docNumber").value=editingId?(state.documents.find(d=>d.id===editingId)?.number||""):nextNumber(type);
+  $("editorNotice").textContent=editingId?"You are editing a saved record. Its document number will remain unchanged.":"A document number is previewed now and reserved when you save. Check all details before issuing.";
+  updatePreview();
+}
+function newDocument(type){
+  editingId=null;currentLines=[];
+  $("docDate").value=today();$("dueDate").value="";
+  $("customerName").value="";$("customerPhone").value="";$("customerAddress").value="";
+  $("docNotes").value=state.business.defaultTerms||"";
+  $("discount").value="0";$("amountPaid").value="0";$("invoiceStatus").value="unpaid";
+  $("receiptAmount").value="";$("paymentMethod").value="Bank transfer";$("linkedInvoice").value="";$("receiptBalance").value="";$("paymentRef").value="";
+  $("itemsBody").innerHTML="";addLine();
+  $("editorStatus").textContent="";
+  setType(type);showView("editor");
+}
+function openDocument(id){
+  const d=state.documents.find(x=>x.id===id);if(!d)return;
+  editingId=id;currentType=d.type;currentLines=structuredCloneSafe(d.lines||[]);
+  $("docDate").value=d.date||today();$("dueDate").value=d.dueDate||"";
+  $("customerName").value=d.customerName||"";$("customerPhone").value=d.customerPhone||"";$("customerAddress").value=d.customerAddress||"";
+  $("docNotes").value=d.notes||"";$("discount").value=d.discount||0;$("invoiceStatus").value=d.status||"unpaid";$("amountPaid").value=d.amountPaid||0;
+  $("receiptAmount").value=d.amountReceived??"";$("paymentMethod").value=d.paymentMethod||"Bank transfer";$("linkedInvoice").value=d.linkedInvoice||"";$("receiptBalance").value=d.receiptBalance??"";$("paymentRef").value=d.paymentRef||"";
+  $("itemsBody").innerHTML="";(d.lines?.length?d.lines:[{description:"",qty:1,rate:0}]).forEach(addLine);
+  setType(d.type);$("docNumber").value=d.number;showView("editor");
+}
+function structuredCloneSafe(v){return JSON.parse(JSON.stringify(v));}
+function readEditor(){
+  const data={id:editingId||makeId(),type:currentType,number:$("docNumber").value,date:$("docDate").value||today(),dueDate:$("dueDate").value,
+    customerName:$("customerName").value.trim(),customerPhone:$("customerPhone").value.trim(),customerAddress:$("customerAddress").value.trim(),notes:$("docNotes").value.trim(),updatedAt:new Date().toISOString()};
+  if(currentType==="invoice"){
+    data.lines=getLines();data.discount=Math.max(0,Number($("discount").value)||0);
+    data.subtotal=data.lines.reduce((s,x)=>s+x.qty*x.rate,0);data.total=Math.max(0,data.subtotal-Math.min(data.subtotal,data.discount));
+    data.amountPaid=Math.min(data.total,Math.max(0,Number($("amountPaid").value)||0));data.balance=Math.max(0,data.total-data.amountPaid);
+    data.status=data.balance===0?"paid":data.amountPaid>0?"part-paid":"unpaid";
+  }else{
+    data.amountReceived=Math.max(0,Number($("receiptAmount").value)||0);data.paymentMethod=$("paymentMethod").value;
+    data.linkedInvoice=$("linkedInvoice").value.trim();data.receiptBalance=$("receiptBalance").value===""?null:Math.max(0,Number($("receiptBalance").value)||0);
+    data.paymentRef=$("paymentRef").value.trim();data.total=data.amountReceived;data.lines=[];
+  }
+  return data;
+}
+function previewHtml(d){
+  const b=state.business, isInv=d.type==="invoice";
+  const label=isInv?"INVOICE":"PAYMENT RECEIPT";
+  const status=isInv?(d.status==="paid"?"PAID IN FULL":d.status==="part-paid"?"PART PAYMENT":"PAYMENT DUE"):"PAYMENT RECEIVED";
+  const lineRows=(d.lines||[]).map(x=>`<tr><td>${safe(x.description||"Item")}</td><td style="text-align:right">${x.qty}</td><td style="text-align:right">${money(x.rate)}</td><td style="text-align:right">${money(x.qty*x.rate)}</td></tr>`).join("");
+  let body=isInv?`<table style="width:100%;border-collapse:collapse;margin-top:28px;font-size:12px"><thead><tr style="background:#f2eee3"><th style="text-align:left;padding:9px">DESCRIPTION</th><th style="text-align:right;padding:9px">QTY</th><th style="text-align:right;padding:9px">RATE</th><th style="text-align:right;padding:9px">AMOUNT</th></tr></thead><tbody>${lineRows}</tbody></table>
+  <div style="margin:18px 0 0 auto;max-width:250px;font-size:12px"><p style="display:flex;justify-content:space-between">Subtotal <b>${money(d.subtotal||0)}</b></p><p style="display:flex;justify-content:space-between">Discount <b>${money(d.discount||0)}</b></p><p style="display:flex;justify-content:space-between;border-top:2px solid ${safe(b.brandColor)};padding-top:10px;font-size:17px">TOTAL <b>${money(d.total||0)}</b></p><p style="display:flex;justify-content:space-between">Paid <b>${money(d.amountPaid||0)}</b></p><p style="display:flex;justify-content:space-between">Balance <b>${money(d.balance||0)}</b></p></div>`:
+  `<div style="margin-top:35px;padding:22px;background:#f7f4ed;border-left:4px solid ${safe(b.brandColor)}"><div style="font-size:12px;color:#666">AMOUNT RECEIVED</div><div style="font-size:30px;font-weight:800;margin:8px 0">${money(d.amountReceived||0)}</div><div style="font-size:12px">Payment method: ${safe(d.paymentMethod||"")}</div>${d.linkedInvoice?`<div style="font-size:12px;margin-top:5px">Related invoice: ${safe(d.linkedInvoice)}</div>`:""}${d.receiptBalance!==null&&d.receiptBalance!==undefined?`<div style="font-size:12px;margin-top:5px">Remaining balance: ${money(d.receiptBalance)}</div>`:""}${d.paymentRef?`<div style="font-size:12px;margin-top:5px">Reference: ${safe(d.paymentRef)}</div>`:""}</div>`;
+  return `<div style="font-family:Arial,sans-serif;color:#1b1b18;max-width:100%;font-size:12px">
+    <div style="display:flex;justify-content:space-between;gap:12px;border-bottom:3px solid ${safe(b.brandColor)};padding-bottom:16px">
+      <div>${b.logoData?`<img src="${b.logoData}" alt="Business logo" style="max-width:68px;max-height:54px;object-fit:contain;display:block;margin-bottom:7px">`:""}<div style="font-size:19px;font-weight:800">${safe(b.name)}</div><div style="color:#666;margin-top:4px">${br(b.address||"")}</div><div style="color:#666">${safe(b.phone||"")}${b.email?" · "+safe(b.email):""}</div>${b.businessId?`<div style="color:#666">Business ID: ${safe(b.businessId)}</div>`:""}</div>
+      <div style="text-align:right;min-width:95px"><div style="color:${safe(b.brandColor)};font-size:19px;font-weight:900">${label}</div><div style="font-weight:700;margin-top:8px">${safe(d.number)}</div><div style="color:#666;margin-top:4px">Date: ${safe(d.date)}</div>${isInv&&d.dueDate?`<div style="color:#666">Due: ${safe(d.dueDate)}</div>`:""}<div style="margin-top:9px;display:inline-block;background:#f2eee3;padding:5px 8px;font-size:10px;font-weight:800">${status}</div></div>
+    </div>
+    <div style="margin-top:20px"><div style="font-size:10px;color:#777;font-weight:700;letter-spacing:1px"> ${isInv?"BILL TO":"RECEIVED FROM"}</div><div style="font-size:15px;font-weight:800;margin-top:5px">${safe(d.customerName||"Customer name")}</div><div style="color:#666">${safe(d.customerPhone||"")}</div><div style="color:#666">${safe(d.customerAddress||"")}</div></div>
+    ${body}
+    ${d.notes?`<div style="margin-top:24px;font-size:11px"><b>Notes</b><div style="color:#555;margin-top:5px">${br(d.notes)}</div></div>`:""}
+    ${b.bankDetails&&isInv?`<div style="margin-top:18px;font-size:11px"><b>Payment instructions</b><div style="color:#555;margin-top:5px">${br(b.bankDetails)}</div></div>`:""}
+    <div style="border-top:1px solid #ddd;margin-top:28px;padding-top:10px;color:#777;font-size:10px">${safe(b.defaultTerms||"Thank you for your business.")}</div>
+  </div>`;
+}
+function updatePreview(){
+  currentLines=getLines();
+  const d=readEditor();
+  $("preview").innerHTML=previewHtml(d);
+  if(currentType==="invoice"){
+    document.querySelectorAll("#itemsBody tr").forEach(tr=>{const q=Number(tr.querySelector(".qty").value)||0,r=Number(tr.querySelector(".rate").value)||0;tr.querySelector(".lineAmount").textContent=money(q*r);});
+  }
+}
+function validate(d){
+  if(!d.customerName){return "Please enter the customer or company name.";}
+  if(!d.date){return "Please select the document date.";}
+  if(d.type==="invoice"){
+    if(!d.lines.length||!d.lines.some(x=>x.description&&x.qty>0)){return "Add at least one item with a description and quantity greater than zero.";}
+    if(d.amountPaid>d.total){return "Amount already paid cannot exceed the invoice total. Use a separate receipt for additional payments.";}
+  }else if(d.amountReceived<=0){return "Enter an amount greater than zero for the payment received.";}
+  return "";
+}
+function saveDocument(){
+  currentLines=getLines();
+  let d=readEditor();
+  const problem=validate(d);if(problem){$("editorStatus").textContent=problem;return;}
+  if(editingId){
+    const idx=state.documents.findIndex(x=>x.id===editingId);
+    if(idx>=0){d.number=state.documents[idx].number;d.createdAt=state.documents[idx].createdAt||state.documents[idx].updatedAt;state.documents[idx]=d;}
+  }else{
+    const key=d.type==="invoice"?"nextInvoice":"nextReceipt";
+    const existing=state.documents.some(x=>x.type===d.type&&x.number===d.number);
+    if(existing){$("editorStatus").textContent="This document number already exists. Check numbering in Business settings before saving.";return;}
+    d.createdAt=d.updatedAt;
+    state.documents.unshift(d);
+    state.business[key]=Math.max(1,Number(state.business[key])||1)+1;
+  }
+  if(!persist())return;
+  $("docNumber").value=d.number;$("editorStatus").textContent="Saved successfully on this device.";
+  renderDashboard();updatePreview();
+}
+function statusLabel(d){return d.type==="receipt"?"Receipt":d.status==="paid"?"Invoice · Paid":d.status==="part-paid"?"Invoice · Part-paid":"Invoice · Unpaid";}
+function documentRow(d,showDelete=false){
+  const div=document.createElement("div");div.className="history-item";
+  div.innerHTML=`<div class="history-main"><strong>${safe(d.number)} · ${safe(d.customerName||"Customer")}</strong><span>${safe(statusLabel(d))} · ${safe(d.date||"")}</span></div><div class="history-amount">${money(d.type==="receipt"?d.amountReceived:d.total)}</div><div style="display:flex;gap:5px;flex-wrap:wrap"><button class="btn small openDoc">Open</button><button class="btn small getPdf">PDF</button>${showDelete?'<button class="btn small danger deleteDoc">Delete</button>':""}</div>`;
+  div.querySelector(".openDoc").addEventListener("click",()=>openDocument(d.id));
+  div.querySelector(".getPdf").addEventListener("click",()=>downloadPdf(d));
+  if(showDelete)div.querySelector(".deleteDoc").addEventListener("click",()=>deleteDocument(d.id));
+  return div;
+}
+function renderDashboard(){
+  updateBrand();
+  $("statDocs").textContent=state.documents.length;
+  $("statInvoices").textContent=state.documents.filter(d=>d.type==="invoice").length;
+  $("statPayments").textContent=money(state.documents.filter(d=>d.type==="receipt").reduce((s,d)=>s+(Number(d.amountReceived)||0),0));
+  const list=$("recentList");list.innerHTML="";
+  if(!state.documents.length){list.innerHTML='<div class="empty">No documents yet. Create your first invoice to get started.</div>';}
+  else state.documents.slice(0,5).forEach(d=>list.appendChild(documentRow(d)));
+}
+function renderHistory(){
+  const q=$("historySearch").value.trim().toLowerCase(),type=$("historyType").value;
+  const docs=state.documents.filter(d=>(type==="all"||d.type===type)&&(!q||[d.number,d.customerName,d.customerPhone].join(" ").toLowerCase().includes(q)));
+  const list=$("historyList");list.innerHTML="";
+  if(!docs.length){list.innerHTML='<div class="empty">No matching documents.</div>';return;}
+  docs.forEach(d=>list.appendChild(documentRow(d,true)));
+}
+function deleteDocument(id){
+  if(!confirm("Delete this saved document? This cannot be undone unless you have a backup."))return;
+  state.documents=state.documents.filter(d=>d.id!==id);persist();renderDashboard();renderHistory();
+}
+function settingsToForm(){
+  const b=state.business;
+  $("businessName").value=b.name||"";$("businessPhone").value=b.phone||"";$("businessAddress").value=b.address||"";
+  $("businessEmail").value=b.email||"";$("businessId").value=b.businessId||"";$("invoicePrefix").value=b.invoicePrefix||"INV";$("receiptPrefix").value=b.receiptPrefix||"RCT";
+  $("nextInvoice").value=b.nextInvoice||1;$("nextReceipt").value=b.nextReceipt||1;$("bankDetails").value=b.bankDetails||"";
+  $("defaultTerms").value=b.defaultTerms||"";$("brandColor").value=b.brandColor||"#c49b36";
+}
+function saveSettings(){
+  const b=state.business;
+  b.name=$("businessName").value.trim()||"Your Business";b.phone=$("businessPhone").value.trim();b.address=$("businessAddress").value.trim();
+  b.email=$("businessEmail").value.trim();b.businessId=$("businessId").value.trim();b.invoicePrefix=$("invoicePrefix").value.trim()||"INV";b.receiptPrefix=$("receiptPrefix").value.trim()||"RCT";
+  b.nextInvoice=Math.max(1,parseInt($("nextInvoice").value,10)||1);b.nextReceipt=Math.max(1,parseInt($("nextReceipt").value,10)||1);
+  b.bankDetails=$("bankDetails").value.trim();b.defaultTerms=$("defaultTerms").value.trim();b.brandColor=$("brandColor").value||"#c49b36";
+  if(!persist())return;updateBrand();$("settingsStatus").textContent="Business settings saved.";renderDashboard();
+}
+function downloadBlob(blob,filename){
+  const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
+}
+function exportBackup(){
+  const backup={app:"RideLink Invoice & Receipt Maker",version:1,exportedAt:new Date().toISOString(),...state};
+  downloadBlob(new Blob([JSON.stringify(backup,null,2)],{type:"application/json"}),"ridelink-business-backup-"+today()+".json");
+  $("backupStatus").textContent="Backup downloaded. Store it somewhere safe."; 
+}
+function restoreBackup(file){
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const obj=JSON.parse(reader.result);
+      if(!obj||!obj.business||!Array.isArray(obj.documents))throw new Error("This file does not look like a RideLink backup.");
+      if(!confirm("Restore this backup? Current business settings and document history will be replaced."))return;
+      state={business:{...BUSINESS_CONFIG,...obj.business},documents:obj.documents};
+      if(!persist())return;
+      settingsToForm();renderDashboard();renderHistory();$("backupStatus").textContent="Backup restored successfully.";alert("Backup restored.");
+    }catch(e){alert("Could not restore backup: "+e.message);}
+  };
+  reader.readAsText(file);
+}
+function buildPrintableHtml(d){
+  const inner=previewHtml(d);
+  return `<!doctype html><html><head><meta charset="utf-8"><title>${safe(d.number)}</title><style>@page{size:A4;margin:18mm}body{font-family:Arial,sans-serif;color:#171717;margin:0}.page{max-width:760px;margin:0 auto}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head><body><div class="page">${inner}</div></body></html>`;
+}
+function printDocument(d){
+  const win=window.open("","_blank");
+  if(!win){alert("Your browser blocked the print window. Allow pop-ups for this site, or use Download PDF.");return;}
+  win.document.open();win.document.write(buildPrintableHtml(d));win.document.close();
+  win.onload=()=>{win.focus();win.print();};
+  setTimeout(()=>{try{win.focus();win.print();}catch(e){}},700);
+}
+function downloadPdf(d){
+  if(!window.jspdf||!window.jspdf.jsPDF){
+    alert("The PDF library could not load. Use “Print / Save as PDF” instead, or reconnect to the internet and try again.");return;
+  }
+  const {jsPDF}=window.jspdf;
+  const pdf=new jsPDF({unit:"mm",format:"a4"});
+  const b=state.business,accent=b.brandColor||"#c49b36";
+  const rgb=hexRgb(accent);
+  const left=18,right=192,width=174;
+  let y=20;
+  pdf.setFillColor(...rgb);pdf.rect(left,y,width,2,"F");y+=12;
+  if(b.logoData && b.logoData.startsWith("data:image/")){
+    try{const fmt=b.logoData.includes("image/png")?"PNG":b.logoData.includes("image/webp")?"WEBP":"JPEG";pdf.addImage(b.logoData,fmt,left,y,18,18);}catch(e){}
+  }
+  const titleX=b.logoData?left+23:left;
+  pdf.setFont("helvetica","bold");pdf.setFontSize(17);pdf.setTextColor(30,30,26);pdf.text(String(b.name||"Your Business"),titleX,y+5,{maxWidth:95});
+  pdf.setFont("helvetica","normal");pdf.setFontSize(9);pdf.setTextColor(90,90,85);
+  let businessLines=[b.address,b.phone,b.email,b.businessId?("Business ID: "+b.businessId):""].filter(Boolean);
+  pdf.text(pdf.splitTextToSize(businessLines.join("\n"),95),titleX,y+11);
+  pdf.setTextColor(...rgb);pdf.setFont("helvetica","bold");pdf.setFontSize(16);pdf.text(d.type==="invoice"?"INVOICE":"PAYMENT RECEIPT",right,y+3,{align:"right"});
+  pdf.setTextColor(30,30,26);pdf.setFontSize(10);pdf.text(String(d.number||""),right,y+10,{align:"right"});
+  pdf.setFont("helvetica","normal");pdf.setFontSize(9);pdf.text("Date: "+String(d.date||""),right,y+16,{align:"right"});
+  if(d.type==="invoice"&&d.dueDate)pdf.text("Due: "+String(d.dueDate),right,y+21,{align:"right"});
+  y+=34;pdf.setDrawColor(...rgb);pdf.setLineWidth(.5);pdf.line(left,y,right,y);y+=10;
+  pdf.setFont("helvetica","bold");pdf.setFontSize(9);pdf.setTextColor(100,100,95);pdf.text(d.type==="invoice"?"BILL TO":"RECEIVED FROM",left,y);y+=6;
+  pdf.setTextColor(25,25,22);pdf.setFontSize(12);pdf.text(String(d.customerName||"Customer"),left,y);y+=5;
+  pdf.setFont("helvetica","normal");pdf.setFontSize(9);pdf.setTextColor(85,85,80);
+  const customer=[d.customerPhone,d.customerAddress].filter(Boolean).join("\n");
+  if(customer){pdf.text(pdf.splitTextToSize(customer,width),left,y);y+=Math.max(5,pdf.splitTextToSize(customer,width).length*4);}
+  y+=5;
+  if(d.type==="invoice"){
+    const rows=(d.lines||[]).map(x=>[String(x.description||"Item"),String(x.qty),money(x.rate),money(x.qty*x.rate)]);
+    pdf.autoTable({startY:y,head:[["DESCRIPTION","QTY","RATE","AMOUNT"]],body:rows,theme:"striped",styles:{font:"helvetica",fontSize:9,cellPadding:3},headStyles:{fillColor:rgb,textColor:[20,20,18]},columnStyles:{1:{halign:"right"},2:{halign:"right"},3:{halign:"right"}},margin:{left,right:left},tableWidth:width});
+    y=pdf.lastAutoTable.finalY+10;
+    const pairs=[["Subtotal",money(d.subtotal)],["Discount",money(d.discount)],["TOTAL",money(d.total)],["Amount paid",money(d.amountPaid)],["Balance due",money(d.balance)]];
+    pairs.forEach((p,i)=>{if(y>260){pdf.addPage();y=22;}pdf.setFont("helvetica",i===2?"bold":"normal");pdf.setFontSize(i===2?12:9);pdf.setTextColor(i===2?rgb[0]:40,i===2?rgb[1]:40,i===2?rgb[2]:35);pdf.text(p[0],right-70,y);pdf.text(p[1],right,y,{align:"right"});y+=i===2?8:5;});
+    pdf.setFont("helvetica","bold");pdf.setFontSize(9);pdf.setTextColor(...rgb);pdf.text("STATUS: "+(d.status==="paid"?"PAID IN FULL":d.status==="part-paid"?"PART PAYMENT":"PAYMENT DUE"),left,y+3);y+=10;
+    if(b.bankDetails){pdf.setTextColor(35,35,30);pdf.setFont("helvetica","bold");pdf.text("Payment instructions",left,y);y+=5;pdf.setFont("helvetica","normal");pdf.setFontSize(9);pdf.setTextColor(80,80,75);const t=pdf.splitTextToSize(b.bankDetails,width);pdf.text(t,left,y);y+=t.length*4+4;}
+  }else{
+    pdf.setFillColor(247,244,237);pdf.rect(left,y,width,35,"F");pdf.setTextColor(90,90,85);pdf.setFontSize(9);pdf.text("AMOUNT RECEIVED",left+6,y+8);
+    pdf.setTextColor(25,25,22);pdf.setFont("helvetica","bold");pdf.setFontSize(22);pdf.text(money(d.amountReceived),left+6,y+19);
+    pdf.setFont("helvetica","normal");pdf.setFontSize(9);pdf.text("Payment method: "+String(d.paymentMethod||""),left+6,y+27);
+    y+=43;
+    const details=[d.linkedInvoice?"Related invoice: "+d.linkedInvoice:"",d.receiptBalance!==null&&d.receiptBalance!==undefined?"Remaining balance: "+money(d.receiptBalance):"",d.paymentRef?"Payment reference: "+d.paymentRef:""].filter(Boolean);
+    details.forEach(t=>{pdf.text(pdf.splitTextToSize(t,width),left,y);y+=5;});
+  }
+  if(d.notes){y+=5;if(y>265){pdf.addPage();y=22;}pdf.setFont("helvetica","bold");pdf.setTextColor(35,35,30);pdf.setFontSize(9);pdf.text("Notes",left,y);y+=5;pdf.setFont("helvetica","normal");pdf.setTextColor(85,85,80);const t=pdf.splitTextToSize(d.notes,width);pdf.text(t,left,y);y+=t.length*4+4;}
+  y=Math.min(y+8,282);pdf.setDrawColor(220,220,215);pdf.line(left,y,right,y);pdf.setFont("helvetica","normal");pdf.setFontSize(8);pdf.setTextColor(110,110,105);pdf.text(String(b.defaultTerms||"Thank you for your business."),left,y+6,{maxWidth:width});
+  pdf.save((d.number||"business-document").replace(/[^a-z0-9-_]/gi,"_")+".pdf");
+}
+function hexRgb(hex){const m=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex||"#c49b36");return m?[parseInt(m[1],16),parseInt(m[2],16),parseInt(m[3],16)]:[196,155,54];}
+
+$("newInvoiceBtn").onclick=()=>newDocument("invoice");
+$("newReceiptBtn").onclick=()=>newDocument("receipt");
+$("settingsBtn").onclick=()=>{settingsToForm();showView("settings");};
+$("saveSettingsBtn").onclick=saveSettings;
+$("settingsBackBtn").onclick=()=>{renderDashboard();showView("dashboard");};
+$("dashboardTab").onclick=()=>{renderDashboard();showView("dashboard");};
+$("invoiceTab").onclick=()=>setType("invoice");
+$("receiptTab").onclick=()=>setType("receipt");
+$("addItemBtn").onclick=()=>{addLine();updatePreview();};
+$("saveDocBtn").onclick=saveDocument;
+$("downloadPdfBtn").onclick=()=>{const d=readEditor();const problem=validate(d);if(problem){$("editorStatus").textContent=problem;return;}downloadPdf(d);};
+$("printDocBtn").onclick=()=>{const d=readEditor();const problem=validate(d);if(problem){$("editorStatus").textContent=problem;return;}printDocument(d);};
+$("cancelEditBtn").onclick=()=>{renderDashboard();showView("dashboard");};
+["docDate","dueDate","customerName","customerPhone","customerAddress","docNotes","discount","invoiceStatus","amountPaid","receiptAmount","paymentMethod","linkedInvoice","receiptBalance","paymentRef"].forEach(id=>$(id).addEventListener("input",updatePreview));
+$("viewAllBtn").onclick=()=>{renderHistory();showView("history");};
+$("historyBackBtn").onclick=()=>{renderDashboard();showView("dashboard");};
+$("historySearch").addEventListener("input",renderHistory);$("historyType").addEventListener("change",renderHistory);
+$("backupBtn").onclick=exportBackup;$("historyBackupBtn").onclick=exportBackup;
+$("restoreBtn").onclick=()=>$("restoreFile").click();
+$("restoreFile").onchange=e=>{const f=e.target.files[0];if(f)restoreBackup(f);e.target.value="";};
+$("businessLogo").onchange=e=>{
+  const f=e.target.files[0];if(!f)return;
+  if(f.size>700*1024){alert("Please choose a logo smaller than 700 KB to keep local storage manageable.");e.target.value="";return;}
+  const reader=new FileReader();reader.onload=()=>{state.business.logoData=reader.result;persist();$("settingsStatus").textContent="Logo loaded. Save settings to keep the configuration.";};reader.readAsDataURL(f);
+};
+$("removeLogoBtn").onclick=()=>{state.business.logoData="";persist();$("settingsStatus").textContent="Logo removed.";};
+$("brandColor").addEventListener("input",e=>document.documentElement.style.setProperty("--gold",e.target.value));
+loadState();updateBrand();renderDashboard();settingsToForm();
+</script>
+</body>
+</html>
