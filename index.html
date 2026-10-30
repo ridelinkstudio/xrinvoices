@@ -8,7 +8,7 @@
 <style>
 :root{--bg:#10110f;--panel:#191a17;--panel2:#20211d;--line:#36372f;--gold:#d8b45a;--gold2:#f1d991;--text:#f7f4eb;--muted:#aaa99f;--danger:#f08b80;--ok:#9dd4a5}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}button,input,textarea,select{font:inherit}button{cursor:pointer}.shell{max-width:1180px;margin:auto;padding:18px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0 22px;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:12px}.mark{width:46px;height:46px;border-radius:13px;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#171610;display:grid;place-items:center;font-weight:900;font-size:21px}.brand h1{font-size:17px;margin:0;letter-spacing:.08em}.brand p{margin:2px 0 0;color:var(--muted);font-size:12px;letter-spacing:.08em}.pill{border:1px solid #62542d;border-radius:999px;color:var(--gold2);padding:6px 10px;font-size:12px}.hero{padding:25px 0 18px}.eyebrow{color:var(--gold);text-transform:uppercase;letter-spacing:.15em;font-size:11px;font-weight:700}.hero h2{font-size:clamp(25px,4vw,38px);line-height:1.1;margin:7px 0 9px}.hero p{margin:0;color:var(--muted);max-width:650px}.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:10px;padding:10px 14px;font-weight:650}.btn.primary{background:var(--gold);color:#18170f;border-color:var(--gold)}.btn.ghost{background:transparent}.btn.danger{color:var(--danger);border-color:#74433e}.btn.small{padding:7px 10px;font-size:13px}.btn:focus,input:focus,textarea:focus,select:focus{outline:2px solid var(--gold);outline-offset:2px}.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:14px 0 22px}.stat,.card{background:var(--panel);border:1px solid var(--line);border-radius:15px}.stat{padding:15px}.stat span{display:block;color:var(--muted);font-size:12px}.stat strong{display:block;font-size:23px;margin-top:5px;overflow-wrap:anywhere}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.card{padding:18px;margin-bottom:16px}.card h3{margin:0 0 14px;font-size:17px}.card-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.card-head h3{margin:0}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:5px;min-width:0}.field.full{grid-column:1/-1}.field label{font-size:12px;color:var(--muted)}input,textarea,select{width:100%;border:1px solid var(--line);border-radius:9px;padding:10px 11px;background:#11120f;color:var(--text);min-width:0}textarea{min-height:76px;resize:vertical}.hint{color:var(--muted);font-size:12px}.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 16px}.tab{border:1px solid var(--line);background:transparent;color:var(--muted);padding:9px 12px;border-radius:999px}.tab.active{background:var(--gold);color:#17160f;border-color:var(--gold);font-weight:750}.hidden{display:none!important}.line-items{width:100%;border-collapse:collapse;margin-top:12px}.line-items th,.line-items td{text-align:left;padding:8px 5px;border-bottom:1px solid var(--line);vertical-align:top}.line-items th{color:var(--muted);font-size:11px;font-weight:600}.line-items input{padding:8px;font-size:13px}.line-items .num{width:85px}.line-items .qty{width:65px}.line-items .remove{padding:5px 8px}.totals{margin:14px 0 0 auto;max-width:310px}.totalrow{display:flex;justify-content:space-between;gap:12px;padding:5px 0;color:var(--muted)}.totalrow strong{color:var(--text)}.totalrow.grand{border-top:1px solid var(--line);margin-top:5px;padding-top:11px;font-size:18px;color:var(--gold2)}.totalrow.grand strong{color:var(--gold2)}.notice{padding:11px 13px;border:1px solid #62542d;background:#242116;border-radius:10px;color:#e8d8a8;font-size:13px;margin-bottom:15px}.status{font-size:12px;color:var(--ok);min-height:18px;margin-top:10px}.history-list{display:flex;flex-direction:column;gap:9px}.history-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border:1px solid var(--line);border-radius:11px;background:#151612}.history-main{min-width:0}.history-main strong{display:block;overflow-wrap:anywhere}.history-main span{display:block;color:var(--muted);font-size:12px;margin-top:3px}.history-amount{font-weight:750;white-space:nowrap}.empty{padding:24px 10px;text-align:center;color:var(--muted)}.footer{padding:20px 0 30px;text-align:center;color:var(--muted);font-size:12px}.logo-preview{width:48px;height:48px;object-fit:contain;border:1px solid var(--line);border-radius:8px;padding:3px;background:#fff}.doc-brand{display:flex;align-items:center;gap:10px}.muted{color:var(--muted)}.section-title{margin:20px 0 10px;font-size:14px;color:var(--gold2)}.checkline{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px}.checkline input{width:auto}
-@media(max-width:760px){.shell{padding:13px}.grid{grid-template-columns:1fr}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:18px}.card{padding:14px}.topbar{align-items:flex-start}.pill{display:none}.line-items th:nth-child(3),.line-items td:nth-child(3){display:none}.line-items .num{width:76px}.form-grid{gap:10px}.btn{padding:10px 11px}}
+@media(max-width:760px){.shell{padding:13px}.grid{grid-template-columns:1fr}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:18px}.card{padding:14px}.topbar{align-items:flex-start}.pill{display:none}.line-items th:nth-child(4),.line-items td:nth-child(4){display:none}.line-items .num{width:76px}.form-grid{gap:10px}.btn{padding:10px 11px}}
 @media(max-width:390px){.stats{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.line-items .qty{width:48px}}
 </style>
 <!-- PDF downloads use jsPDF from a CDN. If unavailable, use Print / Save as PDF instead. -->
@@ -53,7 +53,7 @@
       <div id="serviceLines">
         <div class="section-title" id="linesHeading">Items or services</div>
         <p class="hint" id="linesHint">Add each product or service as a separate line. The total is calculated automatically.</p>
-        <div style="overflow-x:auto"><table class="line-items"><thead><tr><th style="width:48%">Description</th><th id="qtyHeading">Qty</th><th id="rateHeading">Rate (₦)</th><th>Amount</th><th></th></tr></thead><tbody id="itemsBody"></tbody></table></div>
+        <div style="overflow-x:auto"><table class="line-items"><thead><tr><th style="width:48%">Description</th><th id="qtyHeading">Qty</th><th id="rateHeading">Rate (₦)</th><th id="calcAmountHeading">Line total</th><th></th></tr></thead><tbody id="itemsBody"></tbody></table></div>
         <div class="actions"><button class="btn small" id="addItemBtn">＋ Add service / item</button></div>
         <div class="totals"><div class="totalrow"><span>Subtotal</span><strong id="lineSubtotal">₦0.00</strong></div><div class="totalrow grand"><span id="lineTotalLabel">Total</span><strong id="lineTotal">₦0.00</strong></div></div>
       </div>
@@ -74,7 +74,7 @@
           <div class="field full"><label for="paymentRef">Payment reference (optional)</label><input id="paymentRef" placeholder="Transfer reference or transaction ID"></div>
         </div>
       </div>
-      <div class="actions"><button class="btn primary" id="saveDocBtn">Save document</button><button class="btn" id="downloadPdfBtn">Download PDF</button><button class="btn" id="printDocBtn">Print / Save as PDF</button><button class="btn ghost" id="cancelEditBtn">Cancel</button></div>
+      <div class="actions"><button class="btn primary" id="saveDocBtn">Save document</button><button class="btn" id="downloadPdfBtn">Download PDF</button><button class="btn" id="shareWhatsAppBtn">Share receipt on WhatsApp</button><button class="btn" id="printDocBtn">Print / Save as PDF</button><button class="btn ghost" id="cancelEditBtn">Cancel</button></div>
       <div id="editorStatus" class="status" aria-live="polite"></div>
     </section>
     <section class="card"><h3>Document preview</h3><div id="preview" style="background:#fff;color:#171717;border-radius:10px;padding:22px;min-height:350px"></div><p class="hint" style="margin-top:10px">Preview for checking only. Download or print to produce the document.</p></section>
@@ -173,7 +173,7 @@ function nextNumber(type){
   const key=type==="invoice"?"nextInvoice":"nextReceipt";
   return formatNumber(type,Math.max(1,Number(state.business[key])||1));
 }
-function getLines(){return [...document.querySelectorAll("#itemsBody tr")].map(tr=>({description:tr.querySelector(".desc").value.trim(),qty:Math.max(0,Number(tr.querySelector(".qty").value)||0),rate:Math.max(0,Number(tr.querySelector(".rate").value)||0)})).filter(x=>x.description||x.qty||x.rate);}
+function getLines(){return [...document.querySelectorAll("#itemsBody tr")].map(tr=>({description:tr.querySelector(".desc").value.trim(),qty:currentType==="receipt"?1:Math.max(0,Number(tr.querySelector(".qty").value)||0),rate:Math.max(0,Number(tr.querySelector(".rate").value)||0)})).filter(x=>x.description||x.qty||x.rate);}
 function totals(){
   const subtotal=currentLines.reduce((s,x)=>s+x.qty*x.rate,0);
   const discount=Math.min(subtotal,Math.max(0,Number($("discount").value)||0));
@@ -183,9 +183,11 @@ function totals(){
 }
 function addLine(line={description:"",qty:1,rate:0}){
   const tr=document.createElement("tr");
-  tr.innerHTML=`<td><input class="desc" aria-label="Description" placeholder="Service or item" value="${safe(line.description)}"></td><td><input class="qty" aria-label="Quantity" type="number" min="0" step="0.01" value="${line.qty}"></td><td><input class="rate num" aria-label="Rate" type="number" min="0" step="0.01" value="${line.rate}"></td><td class="lineAmount">${money((Number(line.qty)||0)*(Number(line.rate)||0))}</td><td><button class="btn small remove" aria-label="Remove line" type="button">×</button></td>`;
-  tr.querySelectorAll("input").forEach(i=>i.addEventListener("input",()=>{updatePreview();}));
+  tr.innerHTML=`<td><input class="desc" aria-label="Description" placeholder="Service or item" value="${safe(line.description)}"></td><td><input class="qty" aria-label="Quantity" type="number" min="0" step="0.01" value="${line.qty??1}"></td><td><input class="rate num" aria-label="${currentType==="receipt"?"Amount":"Rate"}" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0.00" value="${Number(line.rate)||0}"></td><td class="lineAmount">${money((Number(line.qty)||0)*(Number(line.rate)||0))}</td><td><button class="btn small remove" aria-label="Remove line" type="button">×</button></td>`;
+  tr.querySelectorAll("input").forEach(i=>i.addEventListener("input",updatePreview));
   tr.querySelector(".qty").closest("td").classList.toggle("hidden",currentType==="receipt");
+  tr.querySelector(".rate").closest("td").classList.remove("hidden");
+  tr.querySelector(".lineAmount").classList.toggle("hidden",currentType==="receipt");
   tr.querySelector(".remove").addEventListener("click",()=>{tr.remove();if(!$("itemsBody").children.length)addLine();updatePreview();});
   $("itemsBody").appendChild(tr);
 }
@@ -195,7 +197,9 @@ function setType(type){
   $("linesHint").textContent=type==="invoice"?"Add each product or service as a separate line. The total is calculated automatically.":"Add each service, item, or transaction received as its own line. The receipt total is calculated from these amounts.";
   $("qtyHeading").classList.toggle("hidden",type==="receipt");
   $("rateHeading").textContent=type==="receipt"?"Amount (₦)":"Rate (₦)";
-  document.querySelectorAll("#itemsBody tr .qty").forEach(el=>el.closest("td").classList.toggle("hidden",type==="receipt"));
+  $("calcAmountHeading").classList.toggle("hidden",type==="receipt");
+  $("shareWhatsAppBtn").classList.toggle("hidden",type!=="receipt");
+  document.querySelectorAll("#itemsBody tr").forEach(tr=>{tr.querySelector(".qty").closest("td").classList.toggle("hidden",type==="receipt");tr.querySelector(".rate").setAttribute("aria-label",type==="receipt"?"Amount":"Rate");tr.querySelector(".lineAmount").classList.toggle("hidden",type==="receipt");});
   $("invoiceTab").classList.toggle("active",type==="invoice");
   $("receiptTab").classList.toggle("active",type==="receipt");
   $("invoiceFields").classList.toggle("hidden",type!=="invoice");
@@ -431,6 +435,18 @@ function downloadPdf(d){
 }
 function hexRgb(hex){const m=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex||"#c49b36");return m?[parseInt(m[1],16),parseInt(m[2],16),parseInt(m[3],16)]:[196,155,54];}
 
+function shareReceiptWhatsApp(){
+  const d=readEditor();
+  const problem=validate(d);
+  if(d.type!=="receipt"){ $("editorStatus").textContent="WhatsApp receipt sharing is available when creating a receipt."; return; }
+  if(problem){$("editorStatus").textContent=problem;return;}
+  const b=state.business;
+  const lines=d.lines.map((x,i)=>`${i+1}. ${x.description}: ${money(x.rate)}`).join("\n");
+  const message=[`*${b.name||"Business"}*`,`*PAYMENT RECEIPT*`,`Receipt No: ${d.number}`,`Date: ${d.date}`,`Received from: ${d.customerName}`,"", "*Services / items*",lines,"",`*TOTAL RECEIVED: ${money(d.amountReceived)}*`,`Payment method: ${d.paymentMethod}`,d.linkedInvoice?`Related invoice: ${d.linkedInvoice}`:"",d.receiptBalance!==null?`Remaining balance: ${money(d.receiptBalance)}`:"",d.paymentRef?`Payment reference: ${d.paymentRef}`:"",d.notes?`Notes: ${d.notes}`:"", "", b.phone?`Business contact: ${b.phone}`:"", "Thank you for your business."].filter(Boolean).join("\n");
+  const url="https://wa.me/?text="+encodeURIComponent(message);
+  window.open(url,"_blank","noopener,noreferrer");
+}
+
 $("newInvoiceBtn").onclick=()=>newDocument("invoice");
 $("newReceiptBtn").onclick=()=>newDocument("receipt");
 $("settingsBtn").onclick=()=>{settingsToForm();showView("settings");};
@@ -442,6 +458,7 @@ $("receiptTab").onclick=()=>setType("receipt");
 $("addItemBtn").onclick=()=>{addLine();updatePreview();};
 $("saveDocBtn").onclick=saveDocument;
 $("downloadPdfBtn").onclick=()=>{const d=readEditor();const problem=validate(d);if(problem){$("editorStatus").textContent=problem;return;}downloadPdf(d);};
+$("shareWhatsAppBtn").onclick=shareReceiptWhatsApp;
 $("printDocBtn").onclick=()=>{const d=readEditor();const problem=validate(d);if(problem){$("editorStatus").textContent=problem;return;}printDocument(d);};
 $("cancelEditBtn").onclick=()=>{renderDashboard();showView("dashboard");};
 ["docDate","dueDate","customerName","customerPhone","customerAddress","docNotes","discount","invoiceStatus","amountPaid","receiptAmount","paymentMethod","linkedInvoice","receiptBalance","paymentRef"].forEach(id=>$(id).addEventListener("input",updatePreview));
@@ -461,4 +478,4 @@ $("brandColor").addEventListener("input",e=>document.documentElement.style.setPr
 loadState();updateBrand();renderDashboard();settingsToForm();
 </script>
 </body>
-                                                                                                                  </html>
+                                                                                                                                                                                            </html>
